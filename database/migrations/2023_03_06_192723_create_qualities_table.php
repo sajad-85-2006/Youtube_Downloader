@@ -12,6 +12,9 @@ return new class extends Migration {
     {
         Schema::create('qualities', function (Blueprint $table) {
             $table->id();
+            $table->string('quality');
+            $table->text('link_download');
+            $table->foreignId('videos_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
