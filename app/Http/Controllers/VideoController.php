@@ -23,7 +23,7 @@ class VideoController extends Controller
      */
     public function download(Request $request)
     {
-        $tese = youtube::dispatch($request->link);
+        $tese = youtube::dispatch($request->link, 'youtube');
         return response()->json('Ok');
     }
 

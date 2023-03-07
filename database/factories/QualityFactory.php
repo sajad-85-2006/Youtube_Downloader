@@ -20,7 +20,7 @@ class QualityFactory extends Factory
         return [
             'quality' => array_rand($arr),
             'link_download' => fake()->imageUrl,
-            'videos_id' => fake()->numberBetween(0, 10)
+            'videos_id' => fake()->numberBetween(1, 10)
         ];
     }
 }

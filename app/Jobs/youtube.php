@@ -15,13 +15,23 @@ class youtube implements ShouldQueue
 
     public $link;
 
-    public function __construct($link)
+    public $type;
+
+    public function __construct($link, $type)
     {
         $this->link = $link;
+
+        $this->type = $type;
     }
 
     public function handle()
     {
-        return Storage::disk('local')->put('test/image.mp4', file_get_contents($this->link));
+        if ($this->type == 'youtube') {
+            return Storage::disk('local')->put('test/image.mp4', file_get_contents($this->link));
+
+        } else {
+            return Storage::disk('local')->put('test/image.mp4', file_get_contents($this->link));
+
+        }
     }
 }
