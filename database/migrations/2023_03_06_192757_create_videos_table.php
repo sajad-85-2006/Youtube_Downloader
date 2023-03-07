@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('name');
             $table->text('caption');
             $table->text('link_channel');
+            $table->text('address');
             $table->timestamps();
         });
     }

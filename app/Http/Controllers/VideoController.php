@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\VideoResource;
 use App\Jobs\youtube;
+use App\Models\Quality;
+use App\Models\Video;
 use Illuminate\Http\Request;
 
 class VideoController extends Controller
@@ -12,7 +15,7 @@ class VideoController extends Controller
      */
     public function index()
     {
-//        return response()->json(new VideoResource(Video::all()));
+        return response()->json(new VideoResource(['video' => Video::all(), 'quality' => Quality::all()]));
     }
 
     /**

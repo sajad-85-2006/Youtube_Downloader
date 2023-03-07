@@ -13,9 +13,6 @@ class youtube implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     */
     public $link;
 
     public function __construct($link)
@@ -23,9 +20,6 @@ class youtube implements ShouldQueue
         $this->link = $link;
     }
 
-    /**
-     * Execute the job.
-     */
     public function handle()
     {
         return Storage::disk('local')->put('test/image.mp4', file_get_contents($this->link));
