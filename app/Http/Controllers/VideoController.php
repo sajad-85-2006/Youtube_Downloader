@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VideoRequest;
 use App\Http\Resources\VideoGetResource;
 use App\Http\Resources\VideoResource;
 use App\Jobs\youtube;
 use App\Models\Quality;
 use App\Models\Video;
-use Illuminate\Http\Request;
 
 class VideoController extends Controller
 {
@@ -22,7 +22,7 @@ class VideoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function download(Request $request)
+    public function download(VideoRequest $request)
     {
         $quality = $request->quality;
         youtube::dispatch($request->link, 'youtube', $quality);
