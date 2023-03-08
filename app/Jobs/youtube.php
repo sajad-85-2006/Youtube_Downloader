@@ -27,8 +27,9 @@ class youtube implements ShouldQueue
     public function handle()
     {
         if ($this->type == 'youtube') {
-            return Storage::disk('local')->put('test/image.mp4', file_get_contents($this->link));
-
+            $test = explode('v=', $this->link);
+            exec('yt-dlp.exe -o "' . storage_path('\app\Video\\' . $test[1]) . '\%(title)s' . '" ' . $this->link, $output, $re);
+            var_dump($output);
         } else {
             return Storage::disk('local')->put('test/image.mp4', file_get_contents($this->link));
 
