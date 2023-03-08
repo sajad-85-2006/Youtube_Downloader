@@ -25,9 +25,14 @@ class VideoController extends Controller
     public function download(VideoRequest $request)
     {
         $quality = $request->quality;
+
+        //Run Job
         youtube::dispatch($request->link, 'youtube', $quality);
+
+        //get insert Data From Databases
         $value = Video::query()->orderByDesc('id')->first();
         $quality = Quality::query()->where('videos_id', $value['id'])->get();
+
         return response()->json(new VideoGetResource([$value, $quality]));
 
     }
