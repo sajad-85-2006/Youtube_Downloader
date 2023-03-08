@@ -49,7 +49,7 @@ class youtube implements ShouldQueue
 
             foreach ($this->quality as $x) {
                 $quli = '-f ' . Arr::get($qu, $x);
-                $addr = storage_path('\app\Video\\' . $test[1]) . '\%(title)s' . $x . '.mp4';
+                $addr = storage_path('\app\Video\\' . $test[1]) . '\\' . $name . $x . '.mp4';
                 exec('yt-dlp.exe  -o "' . $addr . '" ' . $quli . ' ' . $this->link, $output, $re);
                 Quality::factory()->create([
                     'quality' => $x,
