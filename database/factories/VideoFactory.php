@@ -18,9 +18,6 @@ class VideoFactory extends Factory
     {
         return [
             'name' => fake()->company(),
-            'caption' => fake()->text(),
-            'link_channel' => fake()->url(),
-            'address' => 'test/test.mp4'
         ];
     }
 }

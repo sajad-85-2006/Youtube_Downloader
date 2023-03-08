@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\VideoGetResource;
 use App\Http\Resources\VideoResource;
 use App\Jobs\youtube;
 use App\Models\Quality;
@@ -23,8 +24,12 @@ class VideoController extends Controller
      */
     public function download(Request $request)
     {
-        $tese = youtube::dispatch($request->link, 'youtube');
-        return response()->json('Ok');
+        $quality = $request->quality;
+        youtube::dispatch($request->link, 'youtube', $quality);
+        $value = Video::query()->orderByDesc('id')->first();
+        $quality = Quality::query()->where('videos_id', $value['id'])->get();
+        return response()->json(new VideoGetResource([$value, $quality]));
+
     }
 
 }
