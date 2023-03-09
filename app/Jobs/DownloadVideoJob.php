@@ -12,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
-class youtube implements ShouldQueue
+class DownloadVideoJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -24,6 +24,8 @@ class youtube implements ShouldQueue
     public $quality;
 
     public $quality_list = ['144p' => 17, '360p' => 18, '720p' => 22];
+
+    public $address_exe_file = 'D:\Programing\Projects\youtube\public\yt-dlp.exe';
 
     public function __construct($link, $type, $quality)
     {
@@ -41,12 +43,19 @@ class youtube implements ShouldQueue
 
             //Get Name Video
             $test = explode('v=', $this->link);
-            exec('yt-dlp.exe --get-filename ' . $this->link, $name_output);
-            $name = explode('.w', $name_output[0])[0];
+            exec('yt-dlp.exe -j ' . $this->link, $name_output);
+            $obj = json_decode($name_output[0]);
+            $time = $obj->duration_string;
+            $name = $obj->_filename;
+            $description = $obj->description;
 
             //save Video In Database
             Video::factory()->create(
-                ['name' => $name]
+                [
+                    'name' => $name,
+                    'caption' => $description,
+                    'time' => $time
+                ]
             );
             $id = Video::query()->orderByDesc('id')->first()['id'];
 
@@ -54,7 +63,7 @@ class youtube implements ShouldQueue
             foreach ($this->quality as $x) {
                 $quality = '-f ' . Arr::get($this->quality_list, $x);
                 $address_video = storage_path('\app\Video\\' . $test[1]) . '\\' . $name . $x . '.mp4';
-                exec('yt-dlp.exe  -o "' . $address_video . '" ' . $quality . ' ' . $this->link, $output, $re);
+                exec($this->address_exe_file . ' -o "' . $address_video . '" ' . $quality . ' ' . $this->link, $output, $re);
 
                 //save Database
                 Quality::factory()->create([

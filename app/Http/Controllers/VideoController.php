@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\VideoRequest;
 use App\Http\Resources\VideoGetResource;
 use App\Http\Resources\VideoResource;
-use App\Jobs\youtube;
+use App\Jobs\DownloadVideoJob;
+use App\Jobs\youTubeDownload;
 use App\Models\Quality;
 use App\Models\Video;
 
@@ -27,7 +28,7 @@ class VideoController extends Controller
         $quality = $request->quality;
 
         //Run Job
-        youtube::dispatch($request->link, 'youtube', $quality);
+        DownloadVideoJob::dispatch($request->link, 'youtube', $quality);
 
         //get insert Data From Databases
         $value = Video::query()->orderByDesc('id')->first();
