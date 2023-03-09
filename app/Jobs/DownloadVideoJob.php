@@ -82,7 +82,7 @@ class DownloadVideoJob implements ShouldQueue
                 $channel_name = $obj->channel;
                 $channel_url = $obj->channel_url;
                 $webpage_url = $obj->webpage_url;
-                Video::factory()->create(
+                Video::create(
                     [
                         'name' => $name,
                         'caption' => $description,
@@ -114,7 +114,7 @@ class DownloadVideoJob implements ShouldQueue
 
                 //save Database
                 foreach ($video_get as $id) {
-                    Quality::factory()->create([
+                    Quality::create([
                         'quality' => $x,
                         'link_download' => $address_video,
                         'videos_id' => $id->id
