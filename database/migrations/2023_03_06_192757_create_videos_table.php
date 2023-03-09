@@ -15,6 +15,11 @@ return new class extends Migration {
             $table->string('name');
             $table->text('caption');
             $table->string('time');
+            $table->string('channel_name');
+            $table->string('channel_id');
+            $table->string('video_id');
+            $table->text('video_url');
+            $table->string('channel_url');
             $table->timestamps();
         });
     }
